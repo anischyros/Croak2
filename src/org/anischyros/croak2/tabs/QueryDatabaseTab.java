@@ -523,9 +523,8 @@ public class QueryDatabaseTab extends CustomTab
                     "Contents have changed and not been saved.  Do you want " +
                     "to save them?", "Contents Changed", 
                     JOptionPane.YES_NO_CANCEL_OPTION);
-                if (results == JOptionPane.YES_OPTION)
-                    if (!saveCurrentScript())
-                        return;
+                if (results == JOptionPane.YES_OPTION && !saveCurrentScript())
+                    return;
                 if (results == JOptionPane.CANCEL_OPTION)
                     return;
             }
