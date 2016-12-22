@@ -466,9 +466,11 @@ public class QueryDatabaseTab extends CustomTab
         
         int result = JOptionPane.showConfirmDialog(this, 
             "Content has been modified.  Do you want to save it?", 
-            "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+            "Warning", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
         if (result == JOptionPane.NO_OPTION)
             return true;
+        if (result == JOptionPane.CANCEL_OPTION)
+            return false;
                 
         return saveCurrentScript();
     }
