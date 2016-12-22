@@ -466,7 +466,8 @@ public class QueryDatabaseTab extends CustomTab
         
         int result = JOptionPane.showConfirmDialog(this, 
             "Content has been modified.  Do you want to save it?", 
-            "Warning", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+            "Warning", JOptionPane.YES_NO_CANCEL_OPTION, 
+            JOptionPane.WARNING_MESSAGE);
         if (result == JOptionPane.NO_OPTION)
             return true;
         if (result == JOptionPane.CANCEL_OPTION)
@@ -520,9 +521,13 @@ public class QueryDatabaseTab extends CustomTab
             {
                 int results = JOptionPane.showConfirmDialog(getParent(),
                     "Contents have changed and not been saved.  Do you want " +
-                    "to save them?", "Contents Changed", JOptionPane.YES_NO_OPTION);
+                    "to save them?", "Contents Changed", 
+                    JOptionPane.YES_NO_CANCEL_OPTION);
                 if (results == JOptionPane.YES_OPTION)
-                    saveCurrentScript();
+                    if (!saveCurrentScript())
+                        return;
+                if (results == JOptionPane.CANCEL_OPTION)
+                    return;
             }
             
             loadScript();
