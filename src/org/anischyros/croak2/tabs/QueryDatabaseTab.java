@@ -8,11 +8,13 @@ import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.filechooser.*;
 import java.sql.*;
+import org.anischyros.croak2.MainFrame;
 import org.anischyros.croak2.panels.*;
 import org.anischyros.croak2.utils.*;
 import org.anischyros.croak2.profile.*;
 import org.anischyros.croak2.components.*;
 import org.anischyros.croak2.properties.Properties;
+import org.anischyros.croak2.menuitems.*;
 
 public class QueryDatabaseTab extends CustomTab
 {
@@ -148,6 +150,12 @@ public class QueryDatabaseTab extends CustomTab
             }
             saveButton.setEnabled(true);
             saveAsButton.setEnabled(true);
+
+            MainFrame mf = MainFrame.getInstance();
+            mf.getMenuItem(LoadScriptMenuItem.class).setEnabled(
+                loadButton.isEnabled());
+            mf.getMenuItem(SaveScriptMenuItem.class).setEnabled(true);
+            mf.getMenuItem(SaveScriptAsMenuItem.class).setEnabled(true);
         }
         else
         {
@@ -163,11 +171,47 @@ public class QueryDatabaseTab extends CustomTab
             loadButton.setEnabled(false);
             saveButton.setEnabled(false);
             saveAsButton.setEnabled(false);
+            
+            MainFrame mf = MainFrame.getInstance();
+            mf.getMenuItem(LoadScriptMenuItem.class).setEnabled(false);
+            mf.getMenuItem(SaveScriptMenuItem.class).setEnabled(false);
+            mf.getMenuItem(SaveScriptAsMenuItem.class).setEnabled(false);
         }
         else
         {
             SwingUtilities.invokeLater(() -> disableButtons());
         }
+    }
+    
+    public void enter()
+    {
+        MainFrame mf = MainFrame.getInstance();
+        mf.getMenuItem(LoadScriptMenuItem.class).setEnabled(
+            loadButton.isEnabled());
+        mf.getMenuItem(SaveScriptMenuItem.class).setEnabled(
+            saveButton.isEnabled());
+        mf.getMenuItem(SaveScriptAsMenuItem.class).setEnabled(
+            saveAsButton.isEnabled());
+        ((LoadScriptMenuItem) mf.getMenuItem(LoadScriptMenuItem.class))
+            .setActiveTabInstance(this);
+        ((SaveScriptMenuItem) mf.getMenuItem(SaveScriptMenuItem.class))
+            .setActiveTabInstance(this);
+        ((SaveScriptAsMenuItem) mf.getMenuItem(SaveScriptAsMenuItem.class))
+            .setActiveTabInstance(this);
+    }
+    
+    public void exit()
+    {
+        MainFrame mf = MainFrame.getInstance();
+        mf.getMenuItem(LoadScriptMenuItem.class).setEnabled(false);
+        mf.getMenuItem(SaveScriptMenuItem.class).setEnabled(false);
+        mf.getMenuItem(SaveScriptAsMenuItem.class).setEnabled(false);
+        ((LoadScriptMenuItem) mf.getMenuItem(LoadScriptMenuItem.class))
+            .setActiveTabInstance(null);
+        ((SaveScriptMenuItem) mf.getMenuItem(SaveScriptMenuItem.class))
+            .setActiveTabInstance(null);
+        ((SaveScriptAsMenuItem) mf.getMenuItem(SaveScriptAsMenuItem.class))
+            .setActiveTabInstance(null);
     }
     
     private void updateResultsField(final String results)
@@ -342,9 +386,11 @@ public class QueryDatabaseTab extends CustomTab
         setContentModified(false);
         updateTab(false);
         saveButton.setEnabled(false);
+        MainFrame mf = MainFrame.getInstance();
+        mf.getMenuItem(SaveScriptMenuItem.class).setEnabled(false);
     }
     
-    private void loadScript()
+    public void loadScript()
     {
         JFileChooser chooser = new JFileChooser();
         FileNameExtensionFilter filter = new FileNameExtensionFilter(
@@ -373,7 +419,7 @@ public class QueryDatabaseTab extends CustomTab
         }
     }
 
-    private boolean saveCurrentScriptInNewFile()
+    public boolean saveCurrentScriptInNewFile()
     {
         // Look up previous folder where a file was last saved
         String fileSaveDirectoryPath = 
@@ -420,6 +466,8 @@ public class QueryDatabaseTab extends CustomTab
 
         // Disable button
         saveButton.setEnabled(false);
+        MainFrame mf = MainFrame.getInstance();
+        mf.getMenuItem(SaveScriptMenuItem.class).setEnabled(false);
             
         // Update tab label
         renameTab(scriptFile.getName());
@@ -438,7 +486,7 @@ public class QueryDatabaseTab extends CustomTab
         return true;
     }
     
-    private boolean saveCurrentScript()
+    public boolean saveCurrentScript()
     {
         if (scriptFile == null)
             return saveCurrentScriptInNewFile();
@@ -568,6 +616,11 @@ public class QueryDatabaseTab extends CustomTab
             executeButton.setEnabled(isContentModified());
             saveButton.setEnabled(isContentModified());
             saveAsButton.setEnabled(isContentModified());
+            MainFrame mf = MainFrame.getInstance();
+            mf.getMenuItem(SaveScriptMenuItem.class).setEnabled(
+                isContentModified());
+            mf.getMenuItem(SaveScriptAsMenuItem.class).setEnabled(
+                isContentModified());
             
         }
         
