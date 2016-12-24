@@ -216,14 +216,14 @@ public class QueryDatabaseTab extends CustomTab
         List<String> list = new ArrayList<>();
         
         boolean lastCharSemicolon = false;
-        StringBuilder sb = new StringBuilder();
+        String s = "";
         for (char ch: commands.toCharArray())
         {
-            sb.append(ch);
+            s += ch;
             if (ch == ';')
             {
-                list.add(sb.toString().trim());
-                sb = new StringBuilder();
+                list.add(s.trim());
+                s = "";
                 lastCharSemicolon = true;
             }
             else
@@ -233,8 +233,8 @@ public class QueryDatabaseTab extends CustomTab
         }
         if (!lastCharSemicolon)
         {
-            sb.append(';');
-            list.add(sb.toString().trim());
+            s += ";";
+            list.add(s.trim());
         }
         
         return list;
@@ -316,8 +316,7 @@ public class QueryDatabaseTab extends CustomTab
     
     private void loadScript(File file)
     {
-        StringBuilder sb = new StringBuilder();
-
+        String s = "";
         try (Reader in = new FileReader(file))
         {
             for (;;)
@@ -325,7 +324,7 @@ public class QueryDatabaseTab extends CustomTab
                 int ch = in.read();
                 if (ch == -1)
                     break;
-                sb.append((char) ch);
+                s += (char) ch;
             }
         }
         catch (IOException e)
@@ -334,7 +333,7 @@ public class QueryDatabaseTab extends CustomTab
                 "Error", JOptionPane.ERROR_MESSAGE);
         }
         
-        commandField.setText(sb.toString());
+        commandField.setText(s);
         
         scriptFile = file;
         

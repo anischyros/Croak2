@@ -7,10 +7,10 @@ public class RequestProcessor
 {
     private static String dup(char ch, int n)
     {
-        StringBuilder buf = new StringBuilder();
+        String s = "";
         for (int i = 0; i < n; i++)
-            buf.append(ch);
-        return buf.toString();
+            s += ch;
+        return s;
     }
     
     public static String formatResultSet(ResultSet resultSet) 
@@ -69,64 +69,47 @@ public class RequestProcessor
         }
         
         // Print notification of truncated data set if necessary.
-        StringBuilder result = new StringBuilder();
+        String result = "";
         if (largeDataSet)
         {
-            result.append("NOTE: Large data set returned from server.\n");
-            result.append("Displayed result set truncated.\n");
+            result += "NOTE: Large data set returned from server.\n";
+            result += "Displayed result set truncated.\n";
         }
 
         // Print column header
         for (int col = 0; col < columnCount; col++)
-        {
-            result.append("+");
-            result.append(dup('-', columnWidth[col] + 2));
-        }
-        result.append("+\n");
+            result += "+" + dup('-', columnWidth[col] + 2);
+        result += "+\n";
         for (int col = 0; col < columnCount; col++)
         {
-            result.append("| ");
-            result.append(column[col]);
+            result += "| " + column[col];
             if (column[col].length() < columnWidth[col])
-            {
-                result.append(dup(' ', 
-                    columnWidth[col] - column[col].length()));
-            }
-            result.append(" ");
+                result += dup(' ', columnWidth[col] - column[col].length());
+            result += " ";
         }
-        result.append("|\n");
+        result += "|\n";
         for (int col = 0; col < columnCount; col++)
-        {
-            result.append("+");
-            result.append(dup('-', columnWidth[col] + 2));
-        }
-        result.append("+\n");
+            result += "+" + dup('-', columnWidth[col] + 2);
+        result += "+\n";
         
         // Print each row
         for (String[] row: rows)
         {
             for (int col = 0; col < columnCount; col++)
             {
-                result.append("| ");
-                result.append(row[col]);
+                result += "| " + row[col];
                 if (row[col].length() < columnWidth[col])
-                {
-                    result.append(dup(' ', 
-                        columnWidth[col] - row[col].length()));
-                }
-                result.append(" ");
+                    result += dup(' ', columnWidth[col] - row[col].length());
+                result += " ";
             }
-            result.append("|\n");
+            result += "|\n";
         }
         
         for (int col = 0; col < columnCount; col++)
-        {
-            result.append("+");
-            result.append(dup('-', columnWidth[col] + 2));
-        }
-        result.append("+\n");
+            result += "+" + dup('-', columnWidth[col] + 2);
+        result += "+\n";
             
-        return result.toString();
+        return result;
     }
     
     public static String formatUpdateResult(int updateCount) 

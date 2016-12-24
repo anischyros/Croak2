@@ -113,45 +113,44 @@ public class InsertRowTab extends CustomTab
     
     private String addQuotes(String value)
     {
-        StringBuilder buf = new StringBuilder("\"");
+        String s = "\"";
         for (int i = 0; i < value.length(); i++)
         {
             char ch = value.charAt(i);
             if (ch == '"')
-                buf.append("\\\"");
+                s += "\\\"";
             else
-                buf.append(ch);
+                s += ch;
         }
-        buf.append('"');
-        return buf.toString();
+        s += '"';
+        return s;
     }
 
     private boolean insertIntoDatabase()
     {
-        StringBuilder query = 
-            new StringBuilder("insert into " + tableName + "(");
+        String query = "insert into " + tableName + "(";
         
         for (int row = 0; row < tableModel.getRowCount(); row++)
         {
             if (row > 0)
-                query.append(", ");
-            query.append(tableModel.getValueAt(row, 0));
+                query += ", ";
+            query += tableModel.getValueAt(row, 0);
         }
-        query.append(") values (");
+        query += ") values (";
         for (int row = 0; row < tableModel.getRowCount(); row++)
         {
             if (row > 0)
-                query.append(", ");
-            query.append(addQuotes(tableModel.getValueAt(row, 1).toString()));
+                query += ", ";
+            query += addQuotes(tableModel.getValueAt(row, 1).toString());
         }
-        query.append(")");
+        query += ")";
         
         try (Connection c = 
             Utils.createDatabaseConnection(getProfile(), getDatabaseName()))
         {
             try (Statement s = c.createStatement())
             {
-                s.execute(query.toString());
+                s.execute(query);
                 return true;
             }
         }
