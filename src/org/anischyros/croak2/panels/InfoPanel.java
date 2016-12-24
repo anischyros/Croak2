@@ -2,17 +2,21 @@ package org.anischyros.croak2.panels;
 
 import java.awt.*;
 import javax.swing.*;
+import javax.swing.event.*;
 import org.anischyros.croak2.components.*;
 import org.anischyros.croak2.tabs.*;
 
-public class InfoPanel extends JTabbedPane
+public class InfoPanel extends JTabbedPane implements ChangeListener
 {
     private static InfoPanel instance = null;
+
+    private int lastSelectedIndex = -1;
     
     private InfoPanel()
     {
         super();
         setPreferredSize(new Dimension(600, 550));
+        addChangeListener(this);
     }
     
     public void addTab(CustomTab tab)
@@ -54,5 +58,13 @@ public class InfoPanel extends JTabbedPane
             return instance;
         instance = new InfoPanel();
         return instance;
+    }
+    
+    public void stateChanged(ChangeEvent e)
+    {
+        if (lastSelectedIndex >= 0)
+            ((CustomTab) getComponentAt(lastSelectedIndex)).exit();
+        ((CustomTab) getComponentAt(getSelectedIndex())).enter();
+        lastSelectedIndex = getSelectedIndex();
     }
 }
