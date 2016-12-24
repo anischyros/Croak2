@@ -90,4 +90,16 @@ public abstract class CustomTab extends JPanel
     }
     
     public abstract void disposeResources();
+
+    // Called when tag is entered
+    public void enter()
+    {
+        System.out.println("Entering " + this.getClass() + " -- " + this.getName());
+    }
+    
+    // Called when tag is exited
+    public void exit()
+    {
+        System.out.println("Exiting " + this.getClass() + " -- " + this.getName());
+    }
 }
