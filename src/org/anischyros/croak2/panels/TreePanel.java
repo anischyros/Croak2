@@ -100,7 +100,8 @@ public class TreePanel extends JPanel
         infoNode.add(new ProfileInfoValueTreeNode(
             String.format("Address: %s", profile.getAddress())));
         infoNode.add(new ProfileInfoValueTreeNode(
-            String.format("Port: %s", profile.getPort())));
+            String.format("Port: %s", 
+            profile.getPort() != 0 ? profile.getPort() : "-- DEFAULT --")));
         infoNode.add(new ProfileInfoValueTreeNode(
             String.format("User name: %s", profile.getUserName())));
         infoNode.add(new ProfileInfoValueTreeNode(
