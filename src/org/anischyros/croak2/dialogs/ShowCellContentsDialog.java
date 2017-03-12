@@ -2,6 +2,7 @@ package org.anischyros.croak2.dialogs;
 
 import java.awt.*;
 import javax.swing.*;
+import org.anischyros.croak2.utils.Utils;
 
 public class ShowCellContentsDialog extends JDialog
 {
@@ -49,9 +50,7 @@ public class ShowCellContentsDialog extends JDialog
     
     private void center()
     {
-        Dimension ss = Toolkit.getDefaultToolkit().getScreenSize();
-        Dimension fs = getSize();
-        setLocation((ss.width - fs.width) / 2, (ss.height - fs.height) / 2);
+        Utils.center(this);
     }
     
     public static void showDialog(Container parent, String title, 
