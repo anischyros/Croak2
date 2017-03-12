@@ -2,7 +2,7 @@ package org.anischyros.croak2.dialogs;
 
 import java.awt.*;
 import javax.swing.*;
-import org.anischyros.croak2.utils.Utils;
+import org.anischyros.croak2.utils.*;
 
 public class ShowCellContentsDialog extends JDialog
 {
